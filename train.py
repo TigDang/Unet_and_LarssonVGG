@@ -6,6 +6,7 @@ from torch.utils.data.dataloader import DataLoader
 
 from models.vgg16 import LarssonVGG16
 from data.graycoco_dataset import train_dataset, val_dataset
+from utils.utils import load_model, save_model
 
 parser = argparse.ArgumentParser(
                     prog='Train colorization nn',
@@ -26,19 +27,22 @@ if __name__=='__main__':
 
     loss_function = nn.CrossEntropyLoss()
 
+    # Define which model will be used - Unet or VGG
     if opt.modify:
         pass
     else:
         model = LarssonVGG16()
 
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+
+    # Define dataloader, which uses to load batches of images
     train_loader = DataLoader(train_dataset, batch_size=opt.batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=opt.batch_size, shuffle=True)
 
     for epoch in range(opt.epochs):
         ## load batch
 
-        ## generate colorization and train
+        ## generate colorization and trainc
 
         ## check metrics
 

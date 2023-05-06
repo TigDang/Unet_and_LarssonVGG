@@ -29,6 +29,8 @@ class GrayCocoDataset():
         return image[0], image[1:]
 
 train_dataset = GrayCocoDataset('.', 'train')
+val_dataset = GrayCocoDataset('.', 'val')
+test_dataset = GrayCocoDataset('.', 'test')
 
 
 # TODO: make test

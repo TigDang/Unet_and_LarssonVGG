@@ -8,7 +8,7 @@ import torchvision
 import PIL
 import cv2
 from matplotlib import pyplot as plt
-from skimage.color import rgb2lab, lab2rgb
+from skimage.color import rgb2lab
 
 
 class GrayCocoDataset():
@@ -45,11 +45,13 @@ test_dataset = GrayCocoDataset(datapath, 'test')
 
 
 if __name__== '__main__':
+    from utils.utils import convert_lab2rgb
     for i in range(1):
         l, ab = val_dataset.__getitem__(i)
         lab_image = torch.concat((l, ab))
-        rgb_image = lab2rgb(lab_image.view(l.shape[1], l.shape[2], 3))
-        rgb_image = rgb_image.resize(2, 0, 1)
+        rgb_image = convert_lab2rgb(lab_image.numpy())
+        # rgb_image = lab2rgb(lab_image.view(l.shape[1], l.shape[2], 3))
+        # rgb_image = rgb_image.resize(2, 0, 1)
         # cv2.imshow('some', rgb_image)
         plt.imshow(rgb_image)
         plt.show()

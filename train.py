@@ -5,7 +5,7 @@ from torch import nn
 from torch.utils.data.dataloader import DataLoader
 
 from models.vgg16 import LarssonVGG16
-from data.graycoco_dataset import train_dataset, val_dataset
+from graycoco_dataset import train_dataset, val_dataset
 from utils.utils import load_model, save_model
 
 parser = argparse.ArgumentParser(

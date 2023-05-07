@@ -46,12 +46,14 @@ if __name__=='__main__':
         # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(train_loader, 0):
+            # load batch
             l, ab = data
             l, ab = l.float().to(opt.device), ab.float().to(opt.device)
         
             # zero the parameter gradients
             optimizer.zero_grad()
         
+            # generate colorization and trainc
             # forward + backward + optimize
             outputs = model(l)
             loss = loss_function(outputs, ab[:512]) + loss_function(outputs, ab[512:])
@@ -59,14 +61,15 @@ if __name__=='__main__':
             optimizer.step()
         
             running_loss += loss.item()
+            if i%100 == 0:
+                save_model(opt, model, 'latest')
         
         print(f'end of epoch, ')
         print('Loss: {}'.format(running_loss))
-        ## load batch
 
-        ## generate colorization and trainc
+        
 
         ## check metrics
 
         ## save model
-        pass
+        save_model(opt, model, f'{epoch}')

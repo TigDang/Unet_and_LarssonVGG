@@ -1,5 +1,6 @@
 import torch
 from skimage import color
+from skimage.color import rgb2lab as convert_rgb2lab
 import numpy as np
 
 def save_model(opt, model, epoch='latest'):

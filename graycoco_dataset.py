@@ -9,9 +9,9 @@ from torchvision import transforms
 import PIL
 import cv2
 from matplotlib import pyplot as plt
-from skimage.color import rgb2lab
 
 from transformations.train_transformations import CropToSquare
+from utils.utils import convert_rgb2lab
 
 
 class GrayCocoDataset():
@@ -32,7 +32,7 @@ class GrayCocoDataset():
         image_path = self.paths[idx]
         image = PIL.Image.open(image_path).convert("RGB")
 
-        image = rgb2lab(image)
+        image = convert_rgb2lab(image)
         image = torchvision.transforms.ToTensor()(image)
 
         if self.transform:

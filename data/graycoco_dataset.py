@@ -1,20 +1,28 @@
-import torchvision
-import PIL
-from skimage.color import rgb2lab, lab2rgb
+from glob import glob
+import os
 from os import listdir
 from os.path import isfile, join
 
+import torch
+import torchvision
+import PIL
+import cv2
+from matplotlib import pyplot as plt
+from skimage.color import rgb2lab, lab2rgb
 
 
 class GrayCocoDataset():
-    def __init__(self, root, mode):
-        root = f'{root}/{mode}/)'
+    def __init__(self, root, mode, transform=None):
+        self.root = f'{root}/{mode}/'
+        self.transform = transform
 
         try:
-            self.paths = [f for f in listdir(root) if isfile(join(root, f))]
+            self.paths = glob(os.path.join(self.root, "*.jpg"))
         except FileNotFoundError:
-            print('There is no data in such path')
+            print(f'There is no data in such path: {self.root}')
 
+    def __len__(self):
+        return self.paths.__len__()
     
     def __getitem__(self, idx):
         image_path = self.paths[idx]
@@ -26,13 +34,22 @@ class GrayCocoDataset():
         image = rgb2lab(image)
         image = torchvision.transforms.ToTensor()(image)
 
-        return image[0], image[1:]
+        return image[0:1], image[1:]
+    
 
-train_dataset = GrayCocoDataset('.', 'train')
-val_dataset = GrayCocoDataset('.', 'val')
-test_dataset = GrayCocoDataset('.', 'test')
+datapath = './data/coco'
+
+train_dataset = GrayCocoDataset(datapath, 'train')
+val_dataset = GrayCocoDataset(datapath, 'val')
+test_dataset = GrayCocoDataset(datapath, 'test')
 
 
-# TODO: make test
 if __name__== '__main__':
-    pass
+    for i in range(1):
+        l, ab = val_dataset.__getitem__(i)
+        lab_image = torch.concat((l, ab))
+        rgb_image = lab2rgb(lab_image.view(l.shape[1], l.shape[2], 3))
+        rgb_image = rgb_image.resize(2, 0, 1)
+        # cv2.imshow('some', rgb_image)
+        plt.imshow(rgb_image)
+        plt.show()

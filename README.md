@@ -5,4 +5,4 @@ This is my thesis project where we try to use Unet instead VGG-16 in colorizatio
 ## Install
 - clone that repo
 - install requirements from file
-- run test.py or trin.py with options
+- run test.py or train.py with options

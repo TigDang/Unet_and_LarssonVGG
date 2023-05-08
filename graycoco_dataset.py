@@ -21,9 +21,10 @@ class GrayCocoDataset():
         self.mode = mode
 
         try:
+            print(f'    Data will be loaded from {self.root}')
             self.paths = glob(os.path.join(self.root, "*.jpg"))
         except FileNotFoundError:
-            print(f'There is no data in such path: {self.root}')
+            print(f'    There is no such directory: {self.root}')
 
     def __len__(self):
         return self.paths.__len__()
@@ -40,17 +41,18 @@ class GrayCocoDataset():
        
 
         l = image[0:1]/100      # [0, 100] -> [0, 1]
-        ab = image[1:]/256+0.5  # [-128, 128] -> [0, 1] 
+        # ab = image[1:]/256+0.5  # [-128, 128] -> [0, 1] 
+        ab = image[1:]+128 # [-128, 128] -> [0, 256] 
 
         return l, ab
     
 
-datapath = './data/coco'
+datapath = f'{os.getcwd()}/data/coco'
 transform = transforms.Compose([
     # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     # transforms.RandomCrop((375, 375)),
     CropToSquare(),
-    transforms.Resize((512, 512)),
+    transforms.Resize((256, 256)),
 ])
 
 train_dataset = GrayCocoDataset(datapath, 'train', transform=transform)
@@ -61,6 +63,8 @@ test_dataset = GrayCocoDataset(datapath, 'test', transform=transform)
 if __name__== '__main__':
     # Some tests
     print(val_dataset.__len__())
+    print(test_dataset.__len__())
+    print(train_dataset.__len__())
 
     from utils.utils import convert_lab2rgb
     for i in range(5):

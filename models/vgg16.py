@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.functional as F
+from torchsummary import summary
 
 class VGGLayer(nn.Module):
     """Implements convolution and ReLU VGG"""
@@ -9,7 +10,7 @@ class VGGLayer(nn.Module):
         self.conv = nn.Sequential(
             nn.Conv2d(in_chs, out_chs, kernel_size=3, padding=1),
             nn.BatchNorm2d(out_chs),
-            nn.ReLU(True)
+            nn.LeakyReLU(True)
         )
 
     def forward(self, x):
@@ -55,11 +56,11 @@ class LarssonVGG16(nn.Module):
 
         self.conv7 = VGGLayer(1024, 1024)
 
-        self.upsample = nn.Upsample((256, 256))
+        self.upsample = nn.Upsample((64, 64))
 
         self.h_fc1 = nn.Sequential(
             nn.Conv2d(3520, 1024, kernel_size=1),
-            nn.ReLU()
+            nn.BatchNorm2d(1024),
         )
 
     def forward(self, x):
@@ -91,5 +92,7 @@ class LarssonVGG16(nn.Module):
 
 if __name__ == '__main__':
     test_vgg = LarssonVGG16()
-    out = test_vgg(torch.rand(1, 1, 256, 256))
-    assert out.shape == torch.Size([1, 1024, 256, 256])
+    out = test_vgg(torch.rand(1, 1, 64, 64))
+    assert out.shape == torch.Size([1, 1024, 64, 64])
+
+    summary(test_vgg, (1, 64, 64), device='cpu')

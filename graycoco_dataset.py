@@ -16,7 +16,8 @@ from utils.utils import convert_rgb2lab
 
 class GrayCocoDataset():
     def __init__(self, root, mode, transform=None):
-        self.root = f'{root}/{mode}/'
+        # self.root = f'{root}\{mode}\'
+        self.root = join(root, mode)
         self.transform = transform
         self.mode = mode
 
@@ -25,6 +26,8 @@ class GrayCocoDataset():
             self.paths = glob(os.path.join(self.root, "*.jpg"))
         except FileNotFoundError:
             print(f'    There is no such directory: {self.root}')
+
+        print(f' size = {self.paths.__len__()}')
 
     def __len__(self):
         return self.paths.__len__()
@@ -47,12 +50,13 @@ class GrayCocoDataset():
         return l, ab
     
 
-datapath = f'{os.getcwd()}/data/coco'
+datapath = f'{os.getcwd()}\data\coco'
+datapath = join(os.getcwd(), 'data', 'coco')
 transform = transforms.Compose([
     # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     # transforms.RandomCrop((375, 375)),
     CropToSquare(),
-    transforms.Resize((256, 256)),
+    transforms.Resize((64, 64), antialias=True),
 ])
 
 train_dataset = GrayCocoDataset(datapath, 'train', transform=transform)

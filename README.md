@@ -11,7 +11,7 @@ This is my thesis project where we try to use Unet instead VGG-16 in colorizatio
 
 ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
-================================================================
+        
             Conv2d-1           [-1, 64, 64, 64]             640
        BatchNorm2d-2           [-1, 64, 64, 64]             128
          LeakyReLU-3           [-1, 64, 64, 64]               0
@@ -86,22 +86,22 @@ This is my thesis project where we try to use Unet instead VGG-16 in colorizatio
          Upsample-72         [-1, 1024, 64, 64]               0
            Conv2d-73         [-1, 1024, 64, 64]       3,605,504
       BatchNorm2d-74         [-1, 1024, 64, 64]           2,048
-================================================================
+      
 Total params: 32,491,456
 Trainable params: 32,491,456
 Non-trainable params: 0
-----------------------------------------------------------------
+
 Input size (MB): 0.02
 Forward/backward pass size (MB): 208.95
 Params size (MB): 123.95
 Estimated Total Size (MB): 332.91
-----------------------------------------------------------------
+
 
 ## Unet
 
 ----------------------------------------------------------------
-        Layer (type)               Output Shape         Param #
-================================================================
+        Layer (type)               Output Shape         Param # 
+        
             Conv2d-1           [-1, 64, 64, 64]             576
        BatchNorm2d-2           [-1, 64, 64, 64]             128
          LeakyReLU-3           [-1, 64, 64, 64]               0
@@ -183,13 +183,12 @@ Estimated Total Size (MB): 332.91
                Up-79           [-1, 64, 64, 64]               0
            Conv2d-80         [-1, 1024, 64, 64]          66,560
           OutConv-81         [-1, 1024, 64, 64]               0
-================================================================
+          
 Total params: 31,102,976
 Trainable params: 31,102,976
 Non-trainable params: 0
-----------------------------------------------------------------
+
 Input size (MB): 0.02
 Forward/backward pass size (MB): 127.69
 Params size (MB): 118.65
 Estimated Total Size (MB): 246.35
-----------------------------------------------------------------
